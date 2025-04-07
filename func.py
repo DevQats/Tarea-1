@@ -63,14 +63,14 @@ def add_user():
         if valid_usuario(usuario):
             break
         else:
-            logging.error("Usuario inválido, debe ser alfanumérico con mínimo 3 y máximo 20 caracteres.")
+            print("Usuario inválido, debe ser alfanumérico con mínimo 3 y máximo 20 caracteres.")
 
     while True:
         contraseña = getpass("Contraseña: ")
         if valid_contraseña(contraseña):
             break
         else:
-            logging.error("Contraseña inválida, debe tener mínimo 6 caracteres.")
+            print("Contraseña inválida, debe tener mínimo 6 caracteres.")
     
     c.execute('''INSERT INTO usuarios (usuario, contraseña)
               VALUES (?, ?)''', (usuario, contraseña))
@@ -91,35 +91,35 @@ def add_producto():
         if valid_text(nombre):
             break
         else:
-            logging.error("Nombre inválido, intente nuevamente.")
+            print("Nombre inválido, intente nuevamente.")
 
     while True:
         descripcion = input("Descripción: ")
         if valid_descripcion(descripcion):
             break
         else:
-            logging.error("Descripción inválida, intente nuevamente.")
+            print("Descripción inválida, intente nuevamente.")
     
     while True:
         cantidad = int(input("Cantidad: "))
         if valid_stock(cantidad):
             break
         else:
-            logging.error("Cantidad inválida, intente nuevamente.")
+            print("Cantidad inválida, intente nuevamente.")
 
     while True:
         precio = float(input("Precio unitario: "))
         if valid_precio(precio):
             break
         else:
-            logging.error("Precio inválido, intente nuevamente.")
+            print("Precio inválido, intente nuevamente.")
 
     while True:
         categoria = input("Categoría: ")
         if valid_text(categoria):
             break
         else:
-            logging.error("Categoría inválida, intente nuevamente.")
+            print("Categoría inválida, intente nuevamente.")
     
     c.execute('''INSERT INTO productos 
               (nombre, descripcion, cantidad, precio, categoria)
