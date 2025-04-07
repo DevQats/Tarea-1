@@ -159,11 +159,40 @@ def update_producto(sku: int):
 
     print("\n--- ACTUALIZAR PRODUCTO ---")
     if producto:
-        nombre = input(f"Nuevo nombre (actual: {producto[1]}): ")
-        descripcion = input(f"Nueva descripción (actual: {producto[2]}): ")
-        cantidad = int(input(f"Nueva cantidad (actual: {producto[3]}): "))
-        precio = float(input(f"Nuevo precio (actual: ${producto[4]}): "))
-        categoria = input(f"Nueva categoría (actual: {producto[5]}): ")
+        while True:
+            nombre = input(f"Nuevo nombre (actual: {producto[1]}): ")
+            if valid_text(nombre):
+                break
+            else:
+                print("Nombre inválido, intente nuevamente.")
+
+        while True:
+            descripcion = input(f"Nueva descripción (actual: {producto[2]}): ")
+            if valid_descripcion(descripcion):
+                break
+            else:
+                print("Descripción inválida, intente nuevamente.")
+
+        while True:
+            cantidad = int(input(f"Nueva cantidad (actual: {producto[3]}): "))
+            if valid_stock(cantidad):
+                break
+            else:
+                print("Cantidad inválida, intente nuevamente.")
+         
+        while True:
+            precio = float(input(f"Nuevo precio (actual: ${producto[4]}): "))
+            if valid_precio(precio):
+                break
+            else:
+                print("Precio inválido, intente nuevamente.")
+        
+        while True:
+            categoria = input(f"Nueva categoría (actual: {producto[5]}): ")
+            if valid_text(categoria):
+                break
+            else:
+                print("Categoría inválida, intente nuevamente.")
 
         c.execute('''UPDATE productos SET nombre=?, descripcion=?, cantidad=?, precio=?, categoria=? 
                   WHERE sku=?''', (nombre, descripcion, cantidad, precio, categoria, sku))
