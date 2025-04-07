@@ -1,5 +1,6 @@
 import sqlite3
 import logging
+from validaciones import valid_text, valid_descripcion, valid_stock, valid_precio, valid_contraseña, valid_usuario
 from getpass import getpass
 
 logging.basicConfig(
@@ -57,8 +58,19 @@ def add_user():
     c = conn.cursor()
     
     print("\n--- REGISTRAR USUARIO ---")
-    usuario = input("Nuevo usuario: ")
-    contraseña = getpass("Nueva contraseña: ")
+    while True:
+        usuario = input("Usuario: ")
+        if valid_usuario(usuario):
+            break
+        else:
+            logging.error("Usuario inválido, debe ser alfanumérico con mínimo 3 y máximo 20 caracteres.")
+
+    while True:
+        contraseña = getpass("Contraseña: ")
+        if valid_contraseña(contraseña):
+            break
+        else:
+            logging.error("Contraseña inválida, debe tener mínimo 6 caracteres.")
     
     c.execute('''INSERT INTO usuarios (usuario, contraseña)
               VALUES (?, ?)''', (usuario, contraseña))
@@ -73,11 +85,41 @@ def add_producto():
     c = conn.cursor()
     
     print("\n--- AÑADIR PRODUCTO ---")
-    nombre = input("Nombre del producto: ")
-    descripcion = input("Descripción: ")
-    cantidad = int(input("Cantidad disponible: "))
-    precio = float(input("Precio unitario: "))
-    categoria = input("Categoría: ")
+
+    while True:
+        nombre = input("Nombre del producto: ")
+        if valid_text(nombre):
+            break
+        else:
+            logging.error("Nombre inválido, intente nuevamente.")
+
+    while True:
+        descripcion = input("Descripción: ")
+        if valid_descripcion(descripcion):
+            break
+        else:
+            logging.error("Descripción inválida, intente nuevamente.")
+    
+    while True:
+        cantidad = int(input("Cantidad: "))
+        if valid_stock(cantidad):
+            break
+        else:
+            logging.error("Cantidad inválida, intente nuevamente.")
+
+    while True:
+        precio = float(input("Precio unitario: "))
+        if valid_precio(precio):
+            break
+        else:
+            logging.error("Precio inválido, intente nuevamente.")
+
+    while True:
+        categoria = input("Categoría: ")
+        if valid_text(categoria):
+            break
+        else:
+            logging.error("Categoría inválida, intente nuevamente.")
     
     c.execute('''INSERT INTO productos 
               (nombre, descripcion, cantidad, precio, categoria)
@@ -87,7 +129,6 @@ def add_producto():
     conn.commit()
     conn.close()
     logger.info(f'Se añadió el producto {nombre} con SKU {c.lastrowid}')
-    print("\nProducto agregado exitosamente!")
 
 def get_productos():
     conn = sqlite3.connect('inventario.db')
