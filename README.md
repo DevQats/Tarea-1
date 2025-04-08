@@ -24,6 +24,16 @@ Este proyecto es una aplicación sencilla para gestionar un inventario de produc
    python3 main.py
    ```
 
+## Cómo testear
+1. Tener instalado pytest y pytest-cov
+   ```bash
+   pip install pytest pytest-cov
+   ```
+2. Ejecutar los tests
+   ```
+   python -m pytest --cov=src tests/ -v
+   ```
+
 ## Cómo contribuir
 
 1. Haz un fork del repositorio.
