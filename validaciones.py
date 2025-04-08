@@ -11,7 +11,7 @@ def valid_stock(stock):
     if isinstance(stock, int) and stock > 0:
         return True
     elif isinstance(stock, int) and stock == 0:
-        logging.warning("Esta ingresando un nuevo producto sin stock.")
+        print("Esta ingresando un nuevo producto sin stock.")
         return True
     else:
         return False
