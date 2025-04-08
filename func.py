@@ -34,8 +34,11 @@ def init_db():
     conn.commit()
     conn.close()
 
-def auth():
-    conn = sqlite3.connect('inventario.db')
+def auth(conn=None):
+    created_conn = False
+    if conn is None:
+        conn = sqlite3.connect('inventario.db')
+        created_conn = True
     c = conn.cursor()
     
     print("\n--- INICIO DE SESIÓN ---")
@@ -48,13 +51,18 @@ def auth():
 
     if resultado is not None:
         logger.info(f'Ha iniciado sesión el usuario {usuario}')
-    conn.close()
+
+    if created_conn:
+        conn.close()
     return resultado is not None
 
 # -----------------------------------------------------
 
-def add_user():
-    conn = sqlite3.connect('inventario.db')
+def add_user(conn=None):
+    created_conn = False
+    if conn is None:
+        conn = sqlite3.connect('inventario.db')
+        created_conn = True
     c = conn.cursor()
     
     print("\n--- REGISTRAR USUARIO ---")
@@ -76,12 +84,16 @@ def add_user():
               VALUES (?, ?)''', (usuario, contraseña))
     
     conn.commit()
-    conn.close()
+    if created_conn:
+        conn.close()
     logger.info(f'Se registró el usuario {usuario}')
     print("\nUsuario registrado exitosamente!")
 
-def add_producto():
-    conn = sqlite3.connect('inventario.db')
+def add_producto(conn=None):
+    created_conn = False
+    if conn is None:
+        conn = sqlite3.connect('inventario.db')
+        created_conn = True
     c = conn.cursor()
     
     print("\n--- AÑADIR PRODUCTO ---")
@@ -127,11 +139,15 @@ def add_producto():
               (nombre, descripcion, cantidad, precio, categoria))
     
     conn.commit()
-    conn.close()
+    if created_conn:
+        conn.close()
     logger.info(f'Se añadió el producto {nombre} con SKU {c.lastrowid}')
 
-def get_productos():
-    conn = sqlite3.connect('inventario.db')
+def get_productos(conn=None):
+    created_conn = False
+    if conn is None:
+        conn = sqlite3.connect('inventario.db')
+        created_conn = True
     c = conn.cursor()
     
     c.execute("SELECT * FROM productos")
@@ -148,10 +164,14 @@ def get_productos():
         print("-----------------------")
     
     logger.info(f'Se consultaron los productos')
-    conn.close()
+    if created_conn:
+        conn.close()
 
-def update_producto(sku: int):
-    conn = sqlite3.connect('inventario.db')
+def update_producto(sku: int, conn=None):
+    created_conn = False
+    if conn is None:
+        conn = sqlite3.connect('inventario.db')
+        created_conn = True
     c = conn.cursor()
     
     c.execute("SELECT * FROM productos WHERE sku = ?", (sku,))
@@ -198,15 +218,19 @@ def update_producto(sku: int):
                   WHERE sku=?''', (nombre, descripcion, cantidad, precio, categoria, sku))
         
         conn.commit()
+        
         logger.info(f'Se actualizó el producto SKU {sku}')
         print("\nProducto actualizado exitosamente!")
     else:
         print("Producto no encontrado.")
-    
-    conn.close()
+    if created_conn:
+            conn.close()
 
-def delete_producto(sku: int):
-    conn = sqlite3.connect('inventario.db')
+def delete_producto(sku: int, conn=None):
+    created_conn = False
+    if conn is None:
+        conn = sqlite3.connect('inventario.db')
+        created_conn = True
     c = conn.cursor()
 
     c.execute("SELECT * FROM productos WHERE sku = ?", (sku,))
@@ -221,10 +245,14 @@ def delete_producto(sku: int):
     else:
         print("Producto no encontrado.")
     
-    conn.close()
+    if created_conn:
+        conn.close()
 
-def update_stock(type):
-    conn = sqlite3.connect('inventario.db')
+def update_stock(type, conn=None):
+    created_conn = False
+    if conn is None:
+        conn = sqlite3.connect('inventario.db')
+        created_conn = True
     c = conn.cursor()
     
     print("\n--- ACTUALIZAR STOCK ---")
@@ -251,12 +279,16 @@ def update_stock(type):
     else:
         print("Producto no encontrado.")
     
-    conn.close()
+    if created_conn:
+        conn.close()
     logger.info(log_msg)
     print("\nStock actualizado!")
 
-def lookup_producto():
-    conn = sqlite3.connect('inventario.db')
+def lookup_producto(conn=None):
+    created_conn = False
+    if conn is None:
+        conn = sqlite3.connect('inventario.db')
+        created_conn = True
     c = conn.cursor()
 
     print("\n--- BUSCAR PRODUCTO ---")
@@ -292,8 +324,14 @@ def lookup_producto():
     else:
         print("No se encontraron productos.")
 
-def gen_report():
-    conn = sqlite3.connect('inventario.db')
+    if created_conn:
+        conn.close()
+
+def gen_report(conn=None):
+    created_conn = False
+    if conn is None:
+        conn = sqlite3.connect('inventario.db')
+        created_conn = True
     c = conn.cursor()
     
     print("\n--- REPORTE ---")
@@ -319,7 +357,9 @@ def gen_report():
             print(f"Precio: ${producto[4]}")
             print(f"Categoría: {producto[5]}")
             print("-----------------------")
-    conn.close()
+
+    if created_conn:
+        conn.close()
 
     logger.info('Se generó un reporte de productos')
     print("\nReporte generado exitosamente!")
