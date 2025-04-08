@@ -1,6 +1,5 @@
 import sqlite3
 import pytest
-import getpass
 from unittest.mock import patch
 from func import auth, add_user, add_producto, get_productos, update_producto, delete_producto, update_stock, lookup_producto, gen_report
 
